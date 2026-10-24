@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wisata_candi_celline/widgets/profile_info_item.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -86,104 +87,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     children: [
-                      // Baris Pengguna / Username
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: const Row(
-                              children: [
-                                Icon(Icons.lock, color: Colors.amber),
-                                SizedBox(width: 8),
-                                Text(
-                                  'Pengguna',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              ': $userName',
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
+                        // Baris Pengguna / Username
+                        ProfileInfoItem(
+                          icon: Icons.lock,
+                          label: 'Pengguna',
+                          value: userName,
+                          iconColor: Colors.amber,
+                        ),
 
-                      const SizedBox(height: 12),
+                        // SizedBox, Divider, SizedBox
+                        ProfileInfoItem(
+                          icon: Icons.person,
+                          label: 'Nama',
+                          value: fullName,
+                          showEditIcon: isSignedIn,
+                          onEditPressed: () => debugPrint('Icon edit ditekan'),
+                          iconColor: Colors.blue,
+                        ),
 
-                      // Baris Nama
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: const Row(
-                              children: [
-                                Icon(Icons.person, color: Colors.blue),
-                                SizedBox(width: 8),
-                                Text(
-                                  'Nama',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              ': $fullName',
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ),
-                          if (isSignedIn)
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.edit,
-                                color: Colors.black54,
-                              ),
-                            ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Baris Favorit
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: const Row(
-                              children: [
-                                Icon(Icons.favorite, color: Colors.red),
-                                SizedBox(width: 8),
-                                Text(
-                                  'Favorit',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              ': $favoriteCandiCount',
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                        // SizedBox, Divider, SizedBox
+                        ProfileInfoItem(
+                          icon: Icons.favorite,
+                          label: 'Favorit',
+                          value: favoriteCandiCount > 0 ? '$favoriteCandiCount' : '',
+                          iconColor: Colors.red,
+                        ),
 
                 const SizedBox(height: 24),
 
@@ -209,6 +137,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
+          ),
+      ]),
     );
   }
 }
