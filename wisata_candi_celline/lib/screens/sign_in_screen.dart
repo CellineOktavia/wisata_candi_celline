@@ -9,37 +9,41 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  // TODO: 1. Deklarasikan variabel
+  // 1. Deklarasi Variabel
   final TextEditingController _usernameController = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
 
   String _errorText = '';
-
-  bool _isSignedIn = false;
-
   bool _obscurePassword = true;
 
-  late final TapGestureRecognizer = _signUpRecognizer;
+  late final TapGestureRecognizer _signUpRecognizer = TapGestureRecognizer()
+    ..onTap = () {
+      // Handle sign up action
+    };
+
+  // Bersihkan controller & recognizer untuk mencegah memory leak
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _signUpRecognizer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // TODO: 2. Pasang AppBar
       appBar: AppBar(title: const Text('Sign In')),
-
-      // TODO: 3. Pasang body
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Form(
               child: Column(
-                // TODO: 4. Atur alignment
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // TODO: 5. TextFormField nama pengguna
+                  // TextFormField Username
                   TextFormField(
                     controller: _usernameController,
                     decoration: const InputDecoration(
@@ -48,17 +52,23 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
 
-                  // TODO: 6. TextFormField kata sandi
                   const SizedBox(height: 20),
-                  TextField(
+
+                  // TextFormField Kata Sandi
+                  TextFormField(
                     controller: _passwordController,
+                    obscureText:
+                        _obscurePassword, // Mengatur sensor/teks password
                     decoration: InputDecoration(
                       labelText: 'Kata Sandi',
                       errorText: _errorText.isNotEmpty ? _errorText : null,
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
                         onPressed: () {
-                          _obscurePassword = !_obscurePassword;
+                          // Memperbarui UI saat ikon mata ditekan
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
                         },
                         icon: Icon(
                           _obscurePassword
@@ -67,17 +77,21 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                     ),
-                    obscureText: _obscurePassword,
                   ),
 
-                  // TODO: 7. ElevatedButton Sign In
                   const SizedBox(height: 20),
+
+                  // Button Sign In
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Logika Sign In
+                    },
                     child: const Text('Sign In'),
                   ),
 
-                  // TODO: 8. RichText TextButton Sign Up
+                  const SizedBox(height: 16),
+
+                  // RichText Sign Up
                   RichText(
                     text: TextSpan(
                       text: 'Belum punya akun? ',
