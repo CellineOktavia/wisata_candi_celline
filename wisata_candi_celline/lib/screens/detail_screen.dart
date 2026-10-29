@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wisata_candi_celline/models/candi.dart';
+import 'package:wisata_candi_celline/screens/profile_screen.dart';
+import 'package:wisata_candi_celline/providers/favorite_provider.dart';
+import 'package:provider/provider.dart';
 
 class DetailScreen extends StatelessWidget {
   final Candi candi;
@@ -71,7 +74,9 @@ class DetailScreen extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<FavoriteProvider>().toggle(candi.name);
+                        },
                         icon: const Icon(Icons.favorite_border),
                       ),
                     ],
@@ -194,6 +199,15 @@ class DetailScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ProfileScreen()),
+          );
+        },
+        child: const Icon(Icons.person),
       ),
     );
   }
