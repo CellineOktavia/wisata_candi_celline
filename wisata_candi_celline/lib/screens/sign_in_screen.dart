@@ -33,9 +33,12 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //TODO 2: Pasang AppBar
       appBar: AppBar(title: const Text('Sign In')),
+      //TODO 3: Pasang body
       body: Center(
         child: SingleChildScrollView(
+          //TODO 4: Atur alignment
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Form(
@@ -43,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // TextFormField Username
+                  // TODO 5: TextFormField Nama Pengguna
                   TextFormField(
                     controller: _usernameController,
                     decoration: const InputDecoration(
@@ -54,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                   const SizedBox(height: 20),
 
-                  // TextFormField Kata Sandi
+                  // TODO 6: TextFormField Kata Sandi
                   TextFormField(
                     controller: _passwordController,
                     obscureText:
@@ -81,7 +84,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                   const SizedBox(height: 20),
 
-                  // Button Sign In
+                  // TODO 7: ElevatedButton Sign In
                   ElevatedButton(
                     onPressed: () {
                       // Logika Sign In
@@ -91,7 +94,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                   const SizedBox(height: 16),
 
-                  // RichText Sign Up
+                  //TODO 8: TextButton Sign Up (alternatif: RichText Sign Up)
                   RichText(
                     text: TextSpan(
                       text: 'Belum punya akun? ',
@@ -106,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             color: Colors.blue,
                             decoration: TextDecoration.underline,
                           ),
-                          recognizer: _signUpRecognizer,
+                          recognizer: _signUpRecognizer, // Ini sudah TapGestureRecognizer().onTap = (){}, => ini ada deklarasi variabel di atas
                         ),
                       ],
                     ),
