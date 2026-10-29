@@ -11,6 +11,14 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 1. Ambil state provider menggunakan context.watch agar UI melakukan rebuild saat ada perubahan
+    final favoriteProvider = context.watch<FavoriteProvider>();
+
+    // 2. Cek apakah candi ini sudah ada di dalam list favorit
+    // (Sesuaikan 'favoriteList' dengan nama variabel list di FavoriteProvider Anda, 
+    // misal: .contains(candi.name) atau .contains(candi))
+    bool isFavorite = favoriteProvider.isFavorite(candi.name);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -77,7 +85,11 @@ class DetailScreen extends StatelessWidget {
                         onPressed: () {
                           context.read<FavoriteProvider>().toggle(candi.name);
                         },
-                        icon: const Icon(Icons.favorite_border),
+                        // icon: const Icon(Icons.favorite_border),
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : null,
+                        ),
                       ),
                     ],
                   ),
