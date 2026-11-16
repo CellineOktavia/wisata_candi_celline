@@ -38,7 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     // Mengambil jumlah favorit secara real-time menggunakan Provider di dalam build()
-    // Catatan: Sesuaikan '.favoriteList.length' atau '.count' dengan isi property di FavoriteProvider Anda
     final favoriteCount = context.watch<FavoriteProvider>().count;
 
     // ProfileScreen, di dalam build()
@@ -47,15 +46,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Stack(
         children: [
+          // 1. Latar belakang header atas
           Container(
             height: 200,
             width: double.infinity,
             color: Colors.deepPurple,
           ),
+
+          // 2. Konten utama yang bisa di-scroll
           SingleChildScrollView(
             child: Column(
               children: [
-                // 2. ProfileHeader (Foto Profil)
+                // ProfileHeader (Foto Profil)
                 Padding(
                   padding: const EdgeInsets.only(top: 130),
                   child: Align(
@@ -93,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 const SizedBox(height: 20),
 
-                // 3. ProfileInfo (Info Pengguna)
+                // ProfileInfo (Info Pengguna)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
@@ -133,10 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                       const SizedBox(height: 24),
 
-                      // TODO: 4. Buat ProfileActions (tombol sign in/out)
+                      // ProfileActions (tombol sign in/out)
                       Divider(color: Colors.deepPurple[100]),
                       const SizedBox(height: 20),
-                      // ganti isSignedIn dengan auth.isSignedIn
                       auth.isSignedIn
                           ? TextButton(
                               onPressed: () =>
@@ -156,7 +157,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
+                const SizedBox(
+                  height: 40,
+                ), // Jarak bawah agar tidak terlalu mepet
               ],
+            ),
+          ),
+
+          // 3. Tombol Panah Kembali (Back Arrow) dengan tema ungu transparan
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple[100]?.withValues(alpha: 0.8),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color:
+                        Colors.deepPurple, // Warna ikon disesuaikan dengan tema
+                  ),
+                ),
+              ),
             ),
           ),
         ],
