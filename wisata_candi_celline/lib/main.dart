@@ -60,10 +60,10 @@ class _MainScreenState extends State<MainScreen> {
   // TODO 1. Deklarasikan variabel
   int _currentIndex = 0;
   final List<Widget> _children = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const FavoriteScreen(),
-    const ProfileScreen(),
+    HomeScreen(),
+    SearchScreen(),
+    FavoriteScreen(),
+    ProfileScreen(),
   ];
 
   @override
@@ -72,11 +72,12 @@ class _MainScreenState extends State<MainScreen> {
       // TODO 2. Buat properti body berupa widget yang ditampilkan
       body: _children[_currentIndex],
       
-      // TODO 3 & 4. Buat properti bottomNavigationBar dengan Theme & Items lengkap
+      // TODO 3. Buat properti bottomNavigationBar dengan nilai Theme
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.deepPurple[50],
         ),
+      // TODO 4. Buat data dan child dari Theme
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
