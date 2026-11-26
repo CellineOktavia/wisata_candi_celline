@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:wisata_candi_celline/screens/sign_up_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -15,19 +15,58 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   String _errorText = '';
+  bool _isSignedIn = false;
   bool _obscurePassword = true;
 
-  late final TapGestureRecognizer _signUpRecognizer = TapGestureRecognizer()
-    ..onTap = () {
-      Navigator.pushNamed(context, '/sign_up');
-    };
+  void _signIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String savedUsername = prefs.getString('username') ?? '';
+    final String savedPassword = prefs.getString('password') ?? '';
+    final String enteredUsername = _usernameController.text.trim();
+    final String enteredPassword = _passwordController.text.trim();
 
-  // Bersihkan controller & recognizer untuk mencegah memory leak
+    if (enteredUsername.isEmpty || enteredPassword.isEmpty) {
+      setState(() {
+        _errorText = 'Nama pengguna dan kata sandi harus diisi.';
+      });
+      return;
+    }
+
+    if (savedUsername.isEmpty || savedPassword.isEmpty) {
+      setState(() {
+        _errorText =
+            'Pengguna belum terdaftar. Silakan daftar terlebih dahulu.';
+      });
+      return;
+    }
+
+    if (enteredUsername == savedUsername && enteredPassword == savedPassword) {
+      setState(() {
+        _errorText = '';
+        _isSignedIn = true;
+        prefs.setBool('isSignedIn', true);
+      });
+
+      // Pemanggilan untuk menghapus semua halaman dalam tumpukan navigasi
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      });
+
+      // Sign in berhasil, navigasikan ke layar utama
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/');
+      });
+    } else {
+      setState(() {
+        _errorText = 'Nama pengguna atau kata sandi salah.';
+      });
+    }
+  }
+
   @override
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
-    _signUpRecognizer.dispose();
     super.dispose();
   }
 
@@ -87,9 +126,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                   // TODO 7: ElevatedButton Sign In
                   ElevatedButton(
-                    onPressed: () {
-                      // Logika Sign In
-                    },
+                    onPressed: _signIn,
                     child: const Text('Sign In'),
                   ),
 
@@ -103,14 +140,18 @@ class _SignInScreenState extends State<SignInScreen> {
                         fontSize: 16,
                         color: Colors.deepPurple,
                       ),
-                      children: [
+                      children: <TextSpan>[
                         TextSpan(
                           text: 'Daftar di sini.',
                           style: const TextStyle(
                             color: Colors.blue,
                             decoration: TextDecoration.underline,
+                            fontSize: 16,
                           ),
-                          recognizer: _signUpRecognizer, // Ini sudah TapGestureRecognizer().onTap = (){}, => ini ada deklarasi variabel di atas
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(context, '/signup');
+                            },
                         ),
                       ],
                     ),

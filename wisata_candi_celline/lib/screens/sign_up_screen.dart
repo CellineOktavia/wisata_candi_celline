@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -15,11 +16,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _errorText = '';
   bool _obscurePassword = true;
 
-  // TODO: 1. Membuat fungsi _signUp
-  void _signUp() {
-    String name = _nameController.text.trim();
-    String username = _usernameController.text.trim();
-    String password = _passwordController.text.trim();
+  // TODO: 1. Membuat metode _signUp
+  void _signUp() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String name = _nameController.text.trim();
+    final String username = _usernameController.text.trim();
+    final String password = _passwordController.text.trim();
 
     if (password.length < 8 ||
         !password.contains(RegExp(r'[A-Z]')) ||
@@ -27,25 +29,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         !password.contains(RegExp(r'[0-9]')) ||
         !password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
       setState(() {
-        _errorText = 'Minimal 8 karakter, kombinasi [A-Z], [a-z], [0-9], [!@#\$%^&*(),.?":{}|<>]';
+        _errorText = 'Minimal 8 karakter, kombinasi [A-Z], [a-z], [0-9], [!@#\\\$%^&*(),.?":{}|<>]';
       });
       return;
     }
 
-    setState(() {
-      _errorText = '';
-    });
+    // simpan data pengguna di SharedPreferences
+    prefs.setString('fullname', name);
+    prefs.setString('username', username);
+    prefs.setString('password', password);
 
-    print('*** Sign Up Berhasil! ***');
-    print('Nama: $name');
-    print('Nama Pengguna: $username');
-    print('Password: $password');
-
-    // Navigasi ke layar lain setelah pendaftaran berhasil
-    Navigator.pop(context);
+    // buat navigasi ke SignInScreen
+    Navigator.pushReplacementNamed(context, '/signin');
   }
 
-  // TODO: 2. Membuat fungsi dispose
+  // TODO: 2. Membuat metode dispose
   @override
   void dispose() {
     _nameController.dispose();
@@ -54,7 +52,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  // Metode build HARUS berada di dalam class _SignUpScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: InputDecoration(
                       labelText: 'Kata Sandi',
                       errorText: _errorText.isNotEmpty ? _errorText : null,
-                      errorMaxLines: 2, // Agar teks error tidak terpotong
+                      errorMaxLines: 2,
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -112,7 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  
+
                   // TODO 7. Tombol Daftar
                   ElevatedButton(
                     onPressed: _signUp,
@@ -126,4 +123,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-} // <-- Kurung tutup class _SignUpScreenState dipindahkan ke paling bawah
+}

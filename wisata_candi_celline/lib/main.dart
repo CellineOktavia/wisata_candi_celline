@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wisata_candi_celline/screens/detail_screen.dart';
-import 'package:wisata_candi_celline/data/candi_data.dart';
 import 'package:wisata_candi_celline/screens/home_screen.dart';
 import 'package:wisata_candi_celline/screens/profile_screen.dart';
 import 'package:wisata_candi_celline/screens/search_screen.dart';
