@@ -6,6 +6,7 @@ import 'package:wisata_candi_celline/screens/profile_screen.dart';
 import 'package:wisata_candi_celline/screens/search_screen.dart';
 import 'package:wisata_candi_celline/screens/sign_in_screen.dart';
 import 'package:wisata_candi_celline/screens/favorite_screen.dart';
+import 'package:wisata_candi_celline/screens/sign_up_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/favorite_provider.dart';
 import 'providers/auth_provider.dart';
@@ -45,6 +46,12 @@ class MyApp extends StatelessWidget {
       ),
       // Menambahkan home agar aplikasi tahu halaman pertama yang dijalankan adalah MainScreen
       home: const MainScreen(),
+      initialRoute: '/',
+      routes: {
+        '/homescreen': (context) => const HomeScreen(),
+        '/signin': (context) => const SignInScreen(),
+        '/signup': (context) => const SignUpScreen(),
+      },
     );
   }
 }

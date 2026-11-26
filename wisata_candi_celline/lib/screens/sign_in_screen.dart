@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:wisata_candi_celline/screens/sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -18,7 +19,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   late final TapGestureRecognizer _signUpRecognizer = TapGestureRecognizer()
     ..onTap = () {
-      // Handle sign up action
+      Navigator.pushNamed(context, '/sign_up');
     };
 
   // Bersihkan controller & recognizer untuk mencegah memory leak
